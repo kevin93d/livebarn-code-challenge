@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Content } from './styled';
 
 const TabPanel = ({
   currentIndex,
@@ -9,7 +10,7 @@ const TabPanel = ({
   ...other
 }) => {
   return (
-    <div
+    <Content
       role={'tabpanel'}
       hidden={currentIndex !== index}
       id={`${controlledBy}-tabpanel-${index}`}
@@ -17,7 +18,7 @@ const TabPanel = ({
       {...other}
     >
       {currentIndex === index && children}
-    </div>
+    </Content>
   );
 };
 

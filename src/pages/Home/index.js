@@ -11,16 +11,16 @@ import TabPanel from '../../components/tabPanel';
 import DataTab from '../../components/dataTab';
 
 const Home = () => {
-  const [currentTab, setCurrentTab] = useState(0);
-  const onTabChange = (event, newIndex) => {
-    setCurrentTab(newIndex);
-  };
+  const [currentTab, setCurrentTab] = useState(1);
 
   return (
-    <Container fluid>
+    <Container fluid xs sm md lg>
       <HomeWrapper>
         <SideMenuWrapper xs={3} sm={2} md={1}>
-          <SideMenu currentIndex={currentTab} onTabChange={onTabChange} />
+          <SideMenu
+            currentIndex={currentTab}
+            onTabChange={(e, value) => setCurrentTab(value)}
+          />
         </SideMenuWrapper>
         <ContentWrapper xs={9} sm={10} md={11}>
           <TabPanel

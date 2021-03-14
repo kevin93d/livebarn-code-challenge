@@ -9,12 +9,22 @@ const columns = [
   { key: 'status', label: 'Status' },
 ];
 
-const Surfaces = ({ surfaces }) => {
-  return <DataTable columns={columns} rows={surfaces} tableName={'surfaces'} />;
+const Surfaces = ({ surfaces, selectedSurface, onSurfaceSelect }) => {
+  return (
+    <DataTable
+      columns={columns}
+      rows={surfaces}
+      tableName={'surfaces'}
+      selected={selectedSurface}
+      onSelect={onSurfaceSelect}
+    />
+  );
 };
 
 Surfaces.propTypes = {
   surfaces: PropTypes.array.isRequired,
+  selectedSurface: PropTypes.object,
+  onSurfaceSelect: PropTypes.func,
 };
 
 export default Surfaces;

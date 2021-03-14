@@ -9,7 +9,8 @@ import {
   TableRow,
 } from '@material-ui/core';
 
-const DataTable = ({ columns, rows, tableName }) => {
+// TODO to improve performance, use pagination or virtual scroll
+const DataTable = ({ columns, rows, tableName, selected, onSelect }) => {
   return (
     <Paper>
       <TableContainer>
@@ -25,7 +26,12 @@ const DataTable = ({ columns, rows, tableName }) => {
           </TableHead>
           <TableBody>
             {rows.map(row => (
-              <TableRow hover key={row.id}>
+              <TableRow
+                hover
+                key={row.id}
+                selected={selected?.id === row?.id}
+                onClick={() => (onSelect ? onSelect(row) : null)}
+              >
                 {columns.map(col => (
                   <TableCell
                     key={col.key}
@@ -54,6 +60,8 @@ DataTable.propTypes = {
   rows: PropTypes.arrayOf(PropTypes.shape({ id: PropTypes.number.isRequired }))
     .isRequired, // should map columns length with same id
   tableName: PropTypes.string,
+  selected: PropTypes.object,
+  onSelect: PropTypes.func,
 };
 
 export default DataTable;

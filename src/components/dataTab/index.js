@@ -25,6 +25,7 @@ const DataTab = () => {
   const [currentTab, setCurrentTab] = useState(0);
   const [data, setData] = useState([]);
   const [servers, setServers] = useState([]);
+  const [selectedSurface, setSelectedSurface] = useState(null);
 
   useEffect(() => {
     fetchData().then(res => setData(res.data));
@@ -32,6 +33,7 @@ const DataTab = () => {
 
   useEffect(() => {
     extractServers(data);
+    if (data.length) setSelectedSurface(data[0]);
   }, [data]);
 
   const fetchData = async () => {
@@ -50,6 +52,10 @@ const DataTab = () => {
 
   const onSearch = query => {
     console.log(query);
+  };
+
+  const onSurfaceSelect = surface => {
+    setSelectedSurface(surface);
   };
 
   return (
@@ -78,7 +84,11 @@ const DataTab = () => {
             currentIndex={currentTab}
             index={0}
           >
-            <Surfaces surfaces={data} />
+            <Surfaces
+              surfaces={data}
+              selectedSurface={selectedSurface}
+              onSurfaceSelect={onSurfaceSelect}
+            />
           </TabPanel>
           <TabPanel
             controlledBy={'data-menu'}
@@ -89,7 +99,7 @@ const DataTab = () => {
           </TabPanel>
         </InnerContentSection>
         <InnerContentSection xs={4} sm={3}>
-          <Detail />
+          <Detail detail={selectedSurface} />
         </InnerContentSection>
       </ContentSection>
     </Container>

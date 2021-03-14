@@ -4,6 +4,7 @@ import { Tab, Tabs } from '@material-ui/core';
 import {
   Container,
   ContentSection,
+  InnerContentSection,
   SearchBarSection,
   TabSection,
 } from './styled';
@@ -70,8 +71,8 @@ const DataTab = () => {
           </Tabs>
         </Col>
       </TabSection>
-      <ContentSection nogutter>
-        <Col xs={8} sm={9}>
+      <ContentSection>
+        <InnerContentSection xs={8} sm={9}>
           <TabPanel
             controlledBy={'data-menu'}
             currentIndex={currentTab}
@@ -86,10 +87,10 @@ const DataTab = () => {
           >
             <Servers servers={servers} />
           </TabPanel>
-        </Col>
-        <Col xs={4} sm={3}>
+        </InnerContentSection>
+        <InnerContentSection xs={4} sm={3}>
           <Detail />
-        </Col>
+        </InnerContentSection>
       </ContentSection>
     </Container>
   );

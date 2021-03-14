@@ -1,5 +1,9 @@
 import styled from 'styled-components';
-import { Container as ContainerBase, Row as RowBase } from 'react-grid-system';
+import {
+  Container as ContainerBase,
+  Row as RowBase,
+  Col as ColBase,
+} from 'react-grid-system';
 
 const Container = styled(ContainerBase)`
   height: 100%;
@@ -18,4 +22,14 @@ const ContentSection = styled(RowBase)`
   height: calc(100% - ${({ theme }) => theme.searchBarHeight} - 70px);
 `;
 
-export { Container, SearchBarSection, TabSection, ContentSection };
+const InnerContentSection = styled(ColBase)`
+  height: 100%;
+`;
+
+export {
+  Container,
+  SearchBarSection,
+  TabSection,
+  ContentSection,
+  InnerContentSection,
+};

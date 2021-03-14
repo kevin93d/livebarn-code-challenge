@@ -23,8 +23,13 @@ const DataTab = () => {
     };
   };
   const [currentTab, setCurrentTab] = useState(0);
+  // original data
   const [data, setData] = useState([]);
+  // Filtered data, which will be passed to surface table
+  const [filteredData, setFilteredData] = useState([]);
+  // Unique servers extracted from data array
   const [servers, setServers] = useState([]);
+  // Current selected row
   const [selectedSurface, setSelectedSurface] = useState(null);
 
   useEffect(() => {
@@ -34,6 +39,7 @@ const DataTab = () => {
   useEffect(() => {
     extractServers(data);
     if (data.length) setSelectedSurface(data[0]);
+    setFilteredData(data);
   }, [data]);
 
   const fetchData = async () => {
@@ -51,7 +57,11 @@ const DataTab = () => {
   };
 
   const onSearch = query => {
-    console.log(query);
+    const filtered = data.filter(d => {
+      return d.venueName.toLowerCase().includes(query.toLowerCase());
+    });
+    setFilteredData(filtered);
+    // if (filtered.length) setSelectedSurface(filtered[0]);
   };
 
   const onSurfaceSelect = surface => {
@@ -62,7 +72,7 @@ const DataTab = () => {
     <Container fluid>
       <SearchBarSection>
         <Col xs={12}>
-          <SearchBar onSearch={onSearch} />
+          <SearchBar onSearch={onSearch} data={data} />
         </Col>
       </SearchBarSection>
       <TabSection>
@@ -85,7 +95,7 @@ const DataTab = () => {
             index={0}
           >
             <Surfaces
-              surfaces={data}
+              surfaces={filteredData}
               selectedSurface={selectedSurface}
               onSurfaceSelect={onSurfaceSelect}
             />

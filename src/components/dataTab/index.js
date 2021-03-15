@@ -129,7 +129,12 @@ const DataTab = () => {
             currentIndex={currentTab}
             index={1}
           >
-            <Servers servers={servers} selectedSurface={selectedSurface} />
+            <Servers
+              servers={servers}
+              selectedSurface={selectedSurface}
+              data={data}
+              onSelect={onSurfaceSelect}
+            />
           </TabPanel>
         </InnerContentSection>
         <InnerContentSection xs={4} sm={3}>
@@ -138,7 +143,9 @@ const DataTab = () => {
       </ContentSection>
       <MatchesFooter align={'center'}>
         <Col xs={8} sm={9}>
-          <Matches>Matched: {query ? filteredData.length : data.length}</Matches>
+          <Matches>
+            Matched: {query ? filteredData.length : data.length}
+          </Matches>
         </Col>
       </MatchesFooter>
     </Container>

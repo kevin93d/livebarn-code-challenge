@@ -73,6 +73,9 @@ const CollapsibleRow = ({
               <Table size={'small'}>
                 <TableHead>
                   <TableRow>
+                    <TableCell>Num Surfaces: {dataByServer.length}</TableCell>
+                  </TableRow>
+                  <TableRow>
                     {collapsibleColumns.map(col => (
                       <TableCell
                         key={col.key}

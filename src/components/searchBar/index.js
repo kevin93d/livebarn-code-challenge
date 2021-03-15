@@ -5,7 +5,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import ClearIcon from '@material-ui/icons/Clear';
 import { Wrapper } from './styled';
 
-const SearchBar = ({ onSearch }) => {
+const SearchBar = ({ onSearch, onClear }) => {
   const [query, setQuery] = useState('');
 
   const handleSearch = value => {
@@ -25,7 +25,7 @@ const SearchBar = ({ onSearch }) => {
       <IconButton
         onClick={() => {
           setQuery('');
-          onSearch('');
+          onClear();
         }}
         disabled={!query}
       >
@@ -37,6 +37,7 @@ const SearchBar = ({ onSearch }) => {
 
 SearchBar.propTypes = {
   onSearch: PropTypes.func.isRequired,
+  onClear: PropTypes.func.isRequired,
 };
 
 export default SearchBar;

@@ -74,9 +74,15 @@ const DataTab = () => {
     const filtered = data.filter(d => {
       return d.venueName.toLowerCase().includes(query.toLowerCase());
     });
-    extractServers(filtered);
     setFilteredData(filtered);
+    extractServers(filtered);
   };
+
+  const onClear = () => {
+    setQuery('');
+    setFilteredData([]);
+    extractServers(data);
+  }
 
   const debouncedSearch = debounce(onSearch, 500);
 
@@ -88,7 +94,7 @@ const DataTab = () => {
     <Container fluid>
       <SearchBarSection>
         <Col xs={12}>
-          <SearchBar onSearch={debouncedSearch} data={data} />
+          <SearchBar onSearch={debouncedSearch} onClear={onClear} />
         </Col>
       </SearchBarSection>
       <TabSection>

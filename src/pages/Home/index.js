@@ -11,7 +11,7 @@ import TabPanel from '../../components/tabPanel';
 import DataTab from '../../components/dataTab';
 
 const Home = () => {
-  const [currentTab, setCurrentTab] = useState(1);
+  const [currentTab, setCurrentTab] = useState(0);
 
   return (
     <Container fluid xs sm md lg>

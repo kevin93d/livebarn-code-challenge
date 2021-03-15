@@ -5,6 +5,8 @@ import {
   Container,
   ContentSection,
   InnerContentSection,
+  Matches,
+  MatchesFooter,
   SearchBarSection,
   TabSection,
 } from './styled';
@@ -82,7 +84,7 @@ const DataTab = () => {
     setQuery('');
     setFilteredData([]);
     extractServers(data);
-  }
+  };
 
   const debouncedSearch = debounce(onSearch, 500);
 
@@ -134,6 +136,11 @@ const DataTab = () => {
           <Detail detail={selectedSurface} />
         </InnerContentSection>
       </ContentSection>
+      <MatchesFooter align={'center'}>
+        <Col xs={8} sm={9}>
+          <Matches>Matched: {query ? filteredData.length : data.length}</Matches>
+        </Col>
+      </MatchesFooter>
     </Container>
   );
 };

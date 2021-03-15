@@ -19,11 +19,19 @@ const TabSection = styled(RowBase)`
 `;
 
 const ContentSection = styled(RowBase)`
-  height: calc(100% - ${({ theme }) => theme.searchBarHeight} - 70px);
+  height: calc(100% - ${({ theme }) => theme.searchBarHeight} - 70px - 40px);
 `;
 
 const InnerContentSection = styled(ColBase)`
   height: 100%;
+`;
+
+const MatchesFooter = styled(RowBase)`
+  height: 40px;
+`;
+
+const Matches = styled.div`
+  text-align: center;
 `;
 
 export {
@@ -32,4 +40,6 @@ export {
   TabSection,
   ContentSection,
   InnerContentSection,
+  MatchesFooter,
+  Matches,
 };

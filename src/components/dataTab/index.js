@@ -14,6 +14,7 @@ import Surfaces from '../surfaces';
 import Servers from '../servers';
 import Detail from '../detail';
 import axios from 'axios';
+import { debounce } from 'lodash';
 
 const DataTab = () => {
   const controlProps = index => {
@@ -23,24 +24,36 @@ const DataTab = () => {
     };
   };
   const [currentTab, setCurrentTab] = useState(0);
-  // original data
+  // Original data
   const [data, setData] = useState([]);
   // Filtered data, which will be passed to surface table
   const [filteredData, setFilteredData] = useState([]);
-  // Unique servers extracted from data array
+  // Unique servers extracted from filtered array
   const [servers, setServers] = useState([]);
   // Current selected row
   const [selectedSurface, setSelectedSurface] = useState(null);
+  // Search query
+  const [query, setQuery] = useState('');
 
   useEffect(() => {
     fetchData().then(res => setData(res.data));
+    // Bonus auto re-fetch data every minute
+    // FIXME
+    // consider what should happen if a selected row is removed from backend
+    const interval = setInterval(() => {
+      fetchData().then(res => setData(res.data));
+    }, 60000);
+    // clean up
+    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
-    extractServers(data);
-    if (data.length) setSelectedSurface(data[0]);
-    setFilteredData(data);
-  }, [data]);
+    if (data.length && !selectedSurface) setSelectedSurface(data[0]);
+  }, [data, selectedSurface]);
+
+  useEffect(() => {
+    if (data.length && !query) extractServers(data);
+  }, [data, query]);
 
   const fetchData = async () => {
     return await axios.get('http://localhost:5000/data');
@@ -57,12 +70,15 @@ const DataTab = () => {
   };
 
   const onSearch = query => {
+    setQuery(query);
     const filtered = data.filter(d => {
       return d.venueName.toLowerCase().includes(query.toLowerCase());
     });
+    extractServers(filtered);
     setFilteredData(filtered);
-    // if (filtered.length) setSelectedSurface(filtered[0]);
   };
+
+  const debouncedSearch = debounce(onSearch, 500);
 
   const onSurfaceSelect = surface => {
     setSelectedSurface(surface);
@@ -72,7 +88,7 @@ const DataTab = () => {
     <Container fluid>
       <SearchBarSection>
         <Col xs={12}>
-          <SearchBar onSearch={onSearch} data={data} />
+          <SearchBar onSearch={debouncedSearch} data={data} />
         </Col>
       </SearchBarSection>
       <TabSection>
@@ -95,7 +111,7 @@ const DataTab = () => {
             index={0}
           >
             <Surfaces
-              surfaces={filteredData}
+              surfaces={query ? filteredData : data}
               selectedSurface={selectedSurface}
               onSurfaceSelect={onSurfaceSelect}
             />
@@ -105,7 +121,7 @@ const DataTab = () => {
             currentIndex={currentTab}
             index={1}
           >
-            <Servers servers={servers} />
+            <Servers servers={servers} selectedSurface={selectedSurface} />
           </TabPanel>
         </InnerContentSection>
         <InnerContentSection xs={4} sm={3}>
